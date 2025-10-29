@@ -126,6 +126,30 @@
         color: #f3f4f6; /* gray-100 */
         border-color: #334155; /* slate-700 */
       }
+      
+      @keyframes particle-animation {
+        from {
+          transform: translate(0, 0) scale(1);
+          opacity: 1;
+        }
+        to {
+          transform: translate(var(--x), var(--y)) scale(0);
+          opacity: 0;
+        }
+      }
+
+      .particle {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: white;
+        opacity: 0;
+        animation: particle-animation var(--duration) var(--delay) ease-out forwards;
+      }
+
     </style>
     <script>
       tailwind.config = {
