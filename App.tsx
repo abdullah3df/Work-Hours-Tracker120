@@ -143,6 +143,7 @@ const App: React.FC = () => {
             setTheme={setTheme}
             t={t}
             showToast={showToast}
+            toasts={toasts}
         />
       )}
     </>

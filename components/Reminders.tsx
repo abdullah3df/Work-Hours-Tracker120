@@ -8,9 +8,10 @@ interface RemindersProps {
   deleteTask: (id: string) => Promise<void>;
   t: (key: string) => string;
   showToast: (message: string, type?: 'success' | 'error' | 'info', icon?: React.ReactNode) => void;
+  playSound: (sound: 'success' | 'delete') => void;
 }
 
-const Reminders: React.FC<RemindersProps> = ({ tasks, saveTask, deleteTask, t, showToast }) => {
+const Reminders: React.FC<RemindersProps> = ({ tasks, saveTask, deleteTask, t, showToast, playSound }) => {
   const [title, setTitle] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [dueTime, setDueTime] = useState('');
@@ -74,6 +75,7 @@ const Reminders: React.FC<RemindersProps> = ({ tasks, saveTask, deleteTask, t, s
             reminderMinutes: Number(reminderMinutes),
             isCompleted: false,
         });
+        playSound('success');
         showToast(t('taskAdded'), 'success');
         setTitle('');
         setDueDate('');
@@ -88,6 +90,7 @@ const Reminders: React.FC<RemindersProps> = ({ tasks, saveTask, deleteTask, t, s
   const handleToggleComplete = async (task: Task) => {
     try {
         await saveTask({ ...task, isCompleted: !task.isCompleted });
+        playSound('success');
         showToast(t('taskUpdated'), 'success');
     } catch(error) {
         console.error("Failed to update task:", error);
@@ -99,6 +102,7 @@ const Reminders: React.FC<RemindersProps> = ({ tasks, saveTask, deleteTask, t, s
     if(window.confirm(t('confirmDeleteTask'))) {
         try {
             deleteTask(id);
+            playSound('delete');
             showToast(t('taskDeleted'), 'success');
         } catch (error) {
             console.error("Failed to delete task:", error);

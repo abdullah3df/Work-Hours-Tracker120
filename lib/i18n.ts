@@ -154,6 +154,7 @@ const translations = {
     remainingVacation: 'Remaining Vacation',
     filterByType: 'Filter by Type',
     user: 'User',
+    enableSoundEffects: 'Enable Sound Effects',
   },
   ar: {
     saati: 'ساعاتي',
@@ -308,6 +309,7 @@ const translations = {
     remainingVacation: 'الإجازة المتبقية',
     filterByType: 'تصفية حسب النوع',
     user: 'مستخدم',
+    enableSoundEffects: 'تفعيل المؤثرات الصوتية',
   },
   de: {
     saati: 'Saati',
@@ -462,6 +464,7 @@ const translations = {
     remainingVacation: 'Resturlaub',
     filterByType: 'Nach Typ filtern',
     user: 'Benutzer',
+    enableSoundEffects: 'Soundeffekte aktivieren',
   },
 };
 

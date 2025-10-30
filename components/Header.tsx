@@ -14,6 +14,7 @@ interface HeaderProps {
   toggleSidebar: () => void;
   isSidebarCollapsed: boolean;
   setIsMobileMenuOpen: (isOpen: boolean) => void;
+  playSound: (sound: 'click') => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -28,6 +29,7 @@ const Header: React.FC<HeaderProps> = ({
   toggleSidebar,
   isSidebarCollapsed,
   setIsMobileMenuOpen,
+  playSound
 }) => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
@@ -58,6 +60,27 @@ const Header: React.FC<HeaderProps> = ({
     };
   }, []);
 
+  const handleSetLanguage = (lang: Language) => {
+    playSound('click');
+    setLanguage(lang);
+    setIsLanguageMenuOpen(false);
+  }
+
+  const handleSetTheme = () => {
+    playSound('click');
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  }
+
+  const toggleProfileMenu = () => {
+    playSound('click');
+    setIsProfileMenuOpen(!isProfileMenuOpen);
+  }
+
+  const toggleLanguageMenu = () => {
+    playSound('click');
+    setIsLanguageMenuOpen(!isLanguageMenuOpen);
+  }
+  
   return (
     <header className="bg-white dark:bg-slate-900 sticky top-0 z-20 border-b border-gray-200 dark:border-slate-800 shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -88,7 +111,7 @@ const Header: React.FC<HeaderProps> = ({
             
              <div className="relative" ref={languageMenuRef}>
               <button
-                onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
+                onClick={toggleLanguageMenu}
                 className="flex items-center space-x-2 rtl:space-x-reverse px-3 py-1.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-slate-700 hover:bg-gray-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 aria-label={t('language')}
               >
@@ -103,8 +126,7 @@ const Header: React.FC<HeaderProps> = ({
                       href="#"
                       onClick={(e) => {
                         e.preventDefault();
-                        setLanguage(lang.code as Language);
-                        setIsLanguageMenuOpen(false);
+                        handleSetLanguage(lang.code as Language);
                       }}
                       className="flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:bg-black/5 dark:text-gray-200 dark:hover:bg-white/5"
                     >
@@ -120,7 +142,7 @@ const Header: React.FC<HeaderProps> = ({
             </div>
 
             <button
-              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+              onClick={handleSetTheme}
               className="p-2 rounded-full bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               aria-label={t('theme')}
             >
@@ -129,7 +151,7 @@ const Header: React.FC<HeaderProps> = ({
 
             <div className="relative" ref={profileMenuRef}>
                 <button
-                    onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                    onClick={toggleProfileMenu}
                     className="p-1.5 rounded-full bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                     <ProfileIcon className="w-6 h-6 text-gray-600 dark:text-gray-300"/>

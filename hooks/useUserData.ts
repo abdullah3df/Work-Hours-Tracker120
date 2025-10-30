@@ -10,6 +10,7 @@ const defaultProfile: ProfileSettings = {
   workHoursPerDay: 8,
   defaultBreakMinutes: 30,
   totalVacationDaysPerYear: 25,
+  soundEffectsEnabled: true,
 };
 
 export function useUserData(user: any | null) {

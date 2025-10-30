@@ -7,6 +7,7 @@ export interface ProfileSettings {
   workHoursPerDay: number;
   defaultBreakMinutes: number;
   totalVacationDaysPerYear: number;
+  soundEffectsEnabled: boolean;
 }
 
 export type LogType = 'work' | 'sickLeave' | 'vacation';

@@ -13,6 +13,7 @@ interface LogManagerProps {
   t: (key: string) => string;
   language: string;
   showToast: (message: string, type?: 'success' | 'error' | 'info', icon?: React.ReactNode) => void;
+  playSound: (sound: 'click' | 'delete') => void;
 }
 
 const LogManager: React.FC<LogManagerProps> = ({
@@ -25,6 +26,7 @@ const LogManager: React.FC<LogManagerProps> = ({
   t,
   language,
   showToast,
+  playSound
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<LogType>('work');
@@ -50,6 +52,7 @@ const LogManager: React.FC<LogManagerProps> = ({
     if (logToDelete) {
       try {
         await onDelete(logToDelete.id);
+        playSound('delete');
         showToast(t('deleteSuccess'), 'success');
       } catch (error) {
         console.error("Failed to delete entry:", error);
@@ -59,6 +62,16 @@ const LogManager: React.FC<LogManagerProps> = ({
       }
     }
   };
+  
+  const handleAdd = () => {
+      playSound('click');
+      onAdd();
+  }
+  
+  const handleGenerateReport = () => {
+      playSound('click');
+      onGenerateReport();
+  }
 
   const filterButtons: { value: LogType; label: string }[] = [
     { value: 'work', label: t('work') },
@@ -74,14 +87,14 @@ const LogManager: React.FC<LogManagerProps> = ({
           <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{t('logHistory')}</h2>
           <div className="flex items-center gap-2 flex-wrap">
             <button
-              onClick={onAdd}
+              onClick={handleAdd}
               className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <AddIcon className="w-5 h-5 me-2" />
               {t('addManualEntry')}
             </button>
             <button
-              onClick={onGenerateReport}
+              onClick={handleGenerateReport}
               disabled={logs.length === 0}
               className="inline-flex items-center justify-center px-4 py-2 border border-gray-300/80 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white/80 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-gray-700/80 dark:text-white dark:border-gray-600/80 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >

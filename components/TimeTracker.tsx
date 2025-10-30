@@ -11,9 +11,10 @@ interface TimeTrackerProps {
   t: (key: string) => string;
   showToast: (message: string, type?: 'success' | 'error' | 'info', icon?: React.ReactNode) => void;
   language: string;
+  playSound: (sound: 'clockIn' | 'clockOut') => void;
 }
 
-const TimeTracker: React.FC<TimeTrackerProps> = ({ logs, addLog, profile, t, showToast, language }) => {
+const TimeTracker: React.FC<TimeTrackerProps> = ({ logs, addLog, profile, t, showToast, language, playSound }) => {
   const [startTimeISO, setStartTimeISO] = useLocalStorage<string | null>('saati-shift-startTime', null);
   const [notes, setNotes] = useLocalStorage<string>('saati-shift-notes', '');
   const [breakMinutes, setBreakMinutes] = useLocalStorage<number>('saati-shift-breakMinutes', profile.defaultBreakMinutes);
@@ -104,6 +105,7 @@ const TimeTracker: React.FC<TimeTrackerProps> = ({ logs, addLog, profile, t, sho
 
   const handleStart = () => {
     if (isRunning || isAnimatingStart || isAnimatingStop) return;
+    playSound('clockIn');
     setIsAnimatingStart(true);
     setStartTimeISO(new Date().toISOString());
     animateParticles(startParticlesRef.current);
@@ -115,6 +117,7 @@ const TimeTracker: React.FC<TimeTrackerProps> = ({ logs, addLog, profile, t, sho
   const handleStop = async () => {
     if (!startTime || isAnimatingStart || isAnimatingStop) return;
     
+    playSound('clockOut');
     setIsAnimatingStop(true);
     animateParticles(stopParticlesRef.current);
     const endTime = new Date();

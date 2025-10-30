@@ -8,9 +8,10 @@ interface ProfileModalProps {
   onSave: (newSettings: ProfileSettings) => Promise<void>;
   t: (key: any) => string;
   showToast: (message: string, type?: 'success' | 'error' | 'info', icon?: React.ReactNode) => void;
+  playSound: (sound: 'click') => void;
 }
 
-const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose, settings, onSave, t, showToast }) => {
+const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose, settings, onSave, t, showToast, playSound }) => {
   const [currentSettings, setCurrentSettings] = useState<ProfileSettings>(settings);
 
   useEffect(() => {
@@ -19,6 +20,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose, settings, 
 
   const handleSave = async () => {
     try {
+      playSound('click');
       await onSave(currentSettings);
       showToast(t('saveSuccess'), 'success');
       onClose();
@@ -77,6 +79,19 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose, settings, 
                 onChange={(e) => setCurrentSettings({ ...currentSettings, totalVacationDaysPerYear: parseInt(e.target.value, 10) || 0 })}
                 className="mt-1 block w-full bg-white/50 dark:bg-gray-900/50 border border-gray-300/50 dark:border-gray-600/50 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:text-white"
               />
+            </div>
+             <div className="flex items-center justify-between pt-2">
+              <label htmlFor="soundEffectsEnabled" className="block text-sm font-medium text-gray-700 dark:text-gray-300">{t('enableSoundEffects')}</label>
+              <div className="relative inline-block w-10 align-middle select-none">
+                <input
+                  type="checkbox"
+                  id="soundEffectsEnabled"
+                  checked={currentSettings.soundEffectsEnabled}
+                  onChange={(e) => setCurrentSettings({ ...currentSettings, soundEffectsEnabled: e.target.checked })}
+                  className="toggle-checkbox"
+                />
+                <label htmlFor="soundEffectsEnabled" className="toggle-label"></label>
+              </div>
             </div>
           </div>
         </div>
